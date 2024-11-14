@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<script src="option.js"></script>
+	<head>
+	<style>
+		
+	</style>
+	</head>
+	<body>
+		<div>
+				<table border=2px solid rgb(140 140 140)>
+					<caption caption-side=bottom>
+						321
+					</caption>
+					
+					<tr>
+						<th text-align=center>compony</th>
+						<th text-align=center>vtuber_name</th>
+						<th text-align=center>country</th>
+						<th text-align=center>birthday</th>
+						<th text-align=center>th</th>
+					</tr>
+					<form action="add.php" method="post">
+						<tr>
+							<th text-align=center >
+								<input type="compony" name="compony" id="compony">
+							</th>
+							<th text-align=center>
+								<input type="vtuber_name" name="vtuber_name" id="vtuber_name">
+							</th>
+							<th text-align=center>
+								<select id="select_country" text-align=center>
+									<option value="default" class="default">請選擇國家</option>
+									**---------------------------------------------------js php-sql
+								</select>
+							</th>
+							<th text-align=center>
+								<input type="date" name="birthday" id="birthday">
+							</th>
+							<th text-align=center>
+								<input type="th" name="th" id="th">
+							</th>
+							<th rowspan=2>
+								<button>aaa</button>
+							</th>
+						</tr>
+					</form>
+					<tr>
+						<th>
+							或是
+							<select id="a">
+								<option value="">所屬事務所</option>
+								
+							</select>
+						</th>
+						<th text-align=center>
+							null
+						</th>
+						<th>
+							新增至下拉式選單
+							<input type="text" id="add_country"><br>
+							<button onclick="addCustomOption()">新增</button>
+							<button onclick="deleteSelectedOption()">刪除</button>
+						</th>
+					</tr>
+				</table>
+
+		</div>
+
+	</body>
+</html>
+
