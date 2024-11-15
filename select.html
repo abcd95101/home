@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<script src="option.js" defer></script>
+	<head>
+	<style>
+
+	</style>
+	</head>
+	<body>
+		<div>
+				<table border=2px solid rgb(140 140 140)>
+					<caption caption-side=bottom>
+						321
+					</caption>
+
+					<tr>
+						<th text-align=center>compony</th>
+						<th text-align=center>vtuber_name</th>
+						<th text-align=center>country</th>
+						<th text-align=center>birthday</th>
+						<th text-align=center>th</th>
+					</tr>
+					<form id="insertdata" method="post">
+						<tr>
+							<th text-align=center >
+								<input name="compony" id="compony">
+							</th>
+							<th text-align=center>
+								<input name="vtuber_name" id="vtuber_name">
+							</th>
+							<th text-align=center>
+								<select id="select_country" name="select_country" text-align=center>
+									<option value="default" class="default">請選擇國家</option>
+									**---------------------------------------------------
+								</select>
+							</th>
+							<th text-align=center>
+								<input type="date" name="birthday" id="birthday">
+							</th>
+							<th text-align=center>
+								<input name="th" id="th">
+							</th>
+							<th rowspan=2>
+								<button name="insert">新增vtuter資料</button>
+							</th>
+						</tr>
+					</form>
+					<tr>
+						<th>
+							或是
+							<select>
+								<option value="">所屬事務所</option>
+
+							</select>
+						</th>
+						<th text-align=center>
+							null
+						</th>
+						<th>
+							新增至下拉式選單
+							<input type="text" id="add_country"><br>
+							<button onclick="addCustomOption()">新增</button>
+							<button onclick="deleteSelectedOption()">刪除</button>
+						</th>
+					</tr>
+				</table>
+		</div>
+		<div id="tablesContainer">
+			<table id="dataTable" border="1">
+			    <thead>
+			        <tr>
+			            <th>Company</th>
+			            <th>Vtuber Name</th>
+			            <th>Country</th>
+			            <th>Birthday</th>
+			            <th>Th</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			        <!-- 動態新增的資料會插入到這裡 -->
+			    </tbody>
+			</table>
+		</div>
+	</body>
+</html>
+
