@@ -1,52 +1,51 @@
 <?php
+header('Content-Type: application/json');
 
-	header('Content-Type: application/json');
-	
-	$host = 'localhost';
-	$dbuser ='root';
-	$dbpassword = '';
-	$dbname = 'test';
-	$link = mysqli_connect($host,$dbuser,$dbpassword,$dbname);
-	
-	$compony = $_POST['compony'];
-	$vtuber_name = $_POST['vtuber_name'];
-	$country = $_POST['select_country'];
-	$birthday = $_POST['birthday'];
-	$th = $_POST['th'];
-	
-	$sql = "INSERT INTO vtuber (compony, vtuber_name, country, birthday, th) VALUES ('$compony', '$vtuber_name', '$country', '$birthday', '$th')";
-	mysqli_set_charset($link, "utf8mb4");
+// 資料庫連線
+$host = 'localhost';
+$dbuser = 'root';
+$dbpassword = '';
+$dbname = 'test';
+$link = mysqli_connect($host, $dbuser, $dbpassword, $dbname);
 
-	mysqli_query($link,$sql);
-	
-	
-	$data = array();
-	$select_sql = "SELECT * FROM `vtuber`";
-	$result = mysqli_query($link,$select_sql);
-	
-	if (mysqli_num_rows($result) > 0){
-		while ($row = mysqli_fetch_row($result)){
-			$data[] = array(
-				'success' => true,
-				'compony' => $row[0],
-				'vtuber_name' => $row[1],
-				'country' => $row[2],
-				'birthday' => $row[3],
-				'th' => $row[4],
-			);
-		}
-		echo json_encode($data,JSON_UNESCAPED_UNICODE);
-	} else {
-    // 插入失敗，返回錯誤訊息
-    echo json_encode([
-        'success' => false,
-        'message' => '插入資料失敗！' . mysqli_error($link)
-    ], JSON_UNESCAPED_UNICODE);
-	}
+if (!$link) {
+    echo json_encode(['success' => false, 'message' => '資料庫連線失敗']);
+    exit;
+}
 
-error_log(mysqli_error($link)); // 將錯誤記錄到伺服器日誌
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		// 接收 POST 資料
+		$gen = $_POST['gen'];
+		$company = $_POST['company'];
+		$vtuber_name = $_POST['vtuber_name'];
+		$country = $_POST['select_country'];
+		$birthday = $_POST['birthday'];
+		$th = $_POST['th'];
+
+		// 插入資料
+		$sql = $link->query("INSERT INTO vtuber (gen, company, vtuber_name, country, birthday, th) VALUES ('$gen', '$company', '$vtuber_name', '$country', '$birthday', '$th')");
+		mysqli_set_charset($link, "utf8mb4");
+
+		mysqli_query($link, $sql);
+		$data = array(
+			"gen" => $gen,
+			"company" => $company,
+			"vtuber_name" => $vtuber_name,
+			"country" => $country, 
+			"birthday" => $birthday, 
+			"th" => $th
+		);
+		echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	
+	} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // 返回資料
+    $result = $link->query("SELECT * FROM vtuber");
+    $data = [];
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    echo json_encode($data, JSON_UNESCAPED_UNICODE);
+}
+
 mysqli_close($link);
-
-
-
 ?>

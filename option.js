@@ -60,82 +60,106 @@ function deleteSelectedOption() {
 	let optionFound = false;
 
 	for (let i = 0; i < select.options.length; i++) {
-    const option = select.options[i];
+		const option = select.options[i];
 
-	if (option.text === deleteText && !option.classList.contains("default")) {
-      select.remove(i);
-      optionFound = true;
-      break;
-    }
-  }
+		if (option.text === deleteText && !option.classList.contains("default")) {
+			select.remove(i);
+			optionFound = true;
+			break;
+		}
+	}
 	
-	if (optionFound) {
-		saveOptions();
-		alert(`已成功刪除-- "${deleteText}"`);
-	}
-	else {
-		alert("此選項無出現在選單裡，或是預設選項");
-	}
-
+		if (optionFound) {
+			saveOptions();
+			alert(`已成功刪除-- "${deleteText}"`);
+		} else {
+			alert("此選項無出現在選單裡，或是預設選項");
+		}
 	// 清空刪除輸入框
 	document.getElementById("add_country").value = "";
 }
 
-function add1() {
-    const form = document.getElementById(formId);
-    
-    if (!form) {
-        console.error(`Form with ID '${formId}' not found.`);
+function add(FormId) {
+    const form = document.getElementById(FormId);
+	
+	if (!form) {
+        console.error(`Form with ID '' not found.`);
         return;
     }
-
+	
     form.addEventListener('submit', function(e) {
-	    e.preventDefault(); // 阻止表單默認提交行為，避免頁面刷新
-
-	    const formData = new FormData(this); // 獲取表單資料
-
-	    fetch('add.php', {
-		    method: 'POST',
-		    body: formData 
-		}) 
-	})
-}
-
-function add(formId, url) {
-    const form = document.getElementById(formId);
-    
-    if (!form) {
-        console.error(`Form with ID '${formId}' not found.`);
-        return;
-    }
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault(); // 防止表單提交刷新頁面
+        e.preventDefault(); 
 
         const formData = new FormData(form);
 
-        fetch(url, {
+		for (let [key, value] of formData.entries()) {
+			console.log(`${key}: ${value}`);
+		}
+		
+		console.log("Form data:", formData);
+
+        fetch('add.php' , {
             method: 'POST',
             body: formData
         })
         .then(response => response.json())
         .then(data => {
-			console.log(data[0]);
             if (true) {
-                // 將新增的資料動態插入表格
-                const table = document.getElementById('dataTable'); // 確認你的表格 ID
-                const tbody = table.querySelector('tbody');
-                const row = tbody.insertRow(); // 在表格最後新增一列
-
+                alert('成功');
+				console.log(data);
+				const table = document.getElementById('dataTable');
+				const tbody = table.querySelector('tbody');
+				const row = tbody.insertRow();
+				row.innerHTML = `
+					<td>${data.gen}</td>
+	                <td>${data.company}</td>
+	                <td>${data.vtuber_name}</td>
+	                <td>${data.country}</td>
+	                <td>${data.birthday}</td>
+	                <td>${data.th}</td>
+	                `;
+				
             } else {
-                alert('新增失敗：' + data.message);
+                alert('失敗' + data.message);
             }
         })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-		form.reset();  //輸入後，淨空form欄位
+        .catch(error => console.error('Error:', error));
+		form.reset();
     });
 }
 
-add('insertdata', 'add.php');  // 固定表單
+function loadData() {
+    fetch('add.php', {
+        method: 'GET'
+    })
+    .then(response => response.json()) 
+    .then(data => {
+            const table = document.getElementById('dataTable');
+            const tbody = table.querySelector('tbody');
+		
+        if (true) {
+             for ( let x = 0; x < data.length; x++ ) {
+			   const row = tbody.insertRow(); // 在表格最後新增一列
+			   row.innerHTML = `
+					<td>${data[x].gen}</td>
+	                <td>${data[x].company}</td>
+	                <td>${data[x].vtuber_name}</td>
+	                <td>${data[x].country}</td>
+	                <td>${data[x].birthday}</td>
+	                <td>${data[x].th}</td>
+	                `
+			;
+			 };
+        } else {
+            alert('載入失敗：' + data.message);
+		}
+    }).catch(error => {
+		console.error('Error:', error);
+		console.log(data[0]);
+	});
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadData();
+    add('insertdata'); // 確保在載入頁面後，綁定 add 函數
+});

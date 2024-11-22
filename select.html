@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
@@ -15,7 +16,8 @@
 					</caption>
 
 					<tr>
-						<th text-align=center>compony</th>
+						<th text-align=center>gen</th>
+						<th text-align=center>company</th>
 						<th text-align=center>vtuber_name</th>
 						<th text-align=center>country</th>
 						<th text-align=center>birthday</th>
@@ -23,8 +25,11 @@
 					</tr>
 					<form id="insertdata" method="post">
 						<tr>
-							<th text-align=center >
-								<input name="compony" id="compony">
+							<th text-align=center>
+								<input name="gen" id="gen">
+							</th>
+							<th text-align=center>
+								<input name="company" id="company">
 							</th>
 							<th text-align=center>
 								<input name="vtuber_name" id="vtuber_name">
@@ -58,6 +63,8 @@
 							null
 						</th>
 						<th>
+						</th>
+						<th>
 							新增至下拉式選單
 							<input type="text" id="add_country"><br>
 							<button onclick="addCustomOption()">新增</button>
@@ -70,6 +77,7 @@
 			<table id="dataTable" border="1">
 			    <thead>
 			        <tr>
+						<th>Gen</th>
 			            <th>Company</th>
 			            <th>Vtuber Name</th>
 			            <th>Country</th>
